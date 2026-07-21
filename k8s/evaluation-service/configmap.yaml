@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: evaluation-config
+  namespace: evaluation
+data:
+  FLAG_SERVICE_URL: "http://172.20.184.26"
+  TARGETING_SERVICE_URL: "http://172.20.208.220"
