@@ -1,0 +1,116 @@
+name: Evaluation Service CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/evaluation-service/**"
+      - ".github/workflows/evaluation-service.yml"
+
+  pull_request:
+    branches: [main]
+    paths:
+      - "apps/evaluation-service/**"
+      - ".github/workflows/evaluation-service.yml"
+
+env:
+  SERVICE_NAME: evaluation-service
+  SERVICE_PATH: apps/evaluation-service
+  AWS_REGION: us-east-1
+
+jobs:
+
+  build-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: apps/evaluation-service
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+
+      - run: go mod download
+
+      - run: go build ./...
+
+      - run: go test ./...
+
+  lint:
+    needs: build-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+
+      - uses: golangci/golangci-lint-action@v6
+        with:
+          working-directory: apps/evaluation-service
+
+  security:
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      ## SAST
+      - uses: securego/gosec@master
+        with:
+          args: ./apps/evaluation-service/...
+
+      ## SCA
+      - uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: apps/evaluation-service
+          severity: CRITICAL
+          exit-code: "1"
+
+  docker:
+    needs: security
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Tag
+        run: |
+          echo "IMAGE_TAG=v1.0.0-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+
+      - uses: aws-actions/amazon-ecr-login@v2
+
+      - run: |
+          docker build \
+            -t $SERVICE_NAME:$IMAGE_TAG \
+            apps/evaluation-service
+
+      - uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.SERVICE_NAME }}:${{ env.IMAGE_TAG }}
+          severity: CRITICAL
+          exit-code: "1"
+
+      - run: |
+          docker tag \
+          $SERVICE_NAME:$IMAGE_TAG \
+          ${{ secrets.ECR_REGISTRY }}/$SERVICE_NAME:$IMAGE_TAG
+
+      - run: |
+          docker push \
+          ${{ secrets.ECR_REGISTRY }}/$SERVICE_NAME:$IMAGE_TAG
