@@ -1,0 +1,23 @@
+namespace: auth
+
+replicaCount: 1
+
+image:
+  repository: 975049924046.dkr.ecr.us-east-1.amazonaws.com/auth-service
+  tag: latest
+
+service:
+  port: 80
+  targetPort: 8001
+
+secret:
+  name: auth-secret
+
+externalSecret:
+  key: auth-service  
+
+configMap:
+  name: auth-config
+
+autoscaling:
+  enabled: false  

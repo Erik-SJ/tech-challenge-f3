@@ -1,0 +1,29 @@
+namespace: evaluation
+
+replicaCount: 1
+
+image:
+  repository: 975049924046.dkr.ecr.us-east-1.amazonaws.com/evaluation-service
+  tag: latest
+
+service:
+  port: 80
+  targetPort: 8004
+
+secret:
+  name: evaluation-secret
+
+externalSecret:
+  key: evaluation-service  
+
+configMap:
+  name: evaluation-config
+  data:
+    FLAG_SERVICE_URL: "http://172.20.184.26"
+    TARGETING_SERVICE_URL: "http://172.20.208.220"
+    
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 70  

@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: analytics-config
-  namespace: analytics
-# data:
-#   AWS_DYNAMODB_TABLE: "ToggleMasterAnalytics"
