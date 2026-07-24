@@ -15,7 +15,7 @@ output "redis_subnet_ids" {
 
 output "rds_subnet_group_name" {
   description = "Nome do DB Subnet Group"
-  value       = aws_db_subnet_group.rds[*].id
+  value       = aws_db_subnet_group.rds.id
 }
 
 output "rds_security_group_id" {

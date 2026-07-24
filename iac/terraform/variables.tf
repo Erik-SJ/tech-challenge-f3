@@ -38,16 +38,6 @@ variable "redis_subnets" {
   type        = list(string)
 }
 
-variable "rds_subnet_group_name" {
-  description = "Nome do DB Subnet Group"
-  type        = string
-}
-
-variable "rds_security_group_id" {
-  description = "ID do Security Group do RDS"
-  type        = string
-}
-
 variable "cluster_version" {
   description = "Versão do Kubernetes"
   type        = string

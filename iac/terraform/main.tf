@@ -62,48 +62,71 @@ module "rds" {
 
   secret_name = "postgres_credentials"
 
+  depends_on = [
+    module.networking
+  ]
+
 }
 
-# module "redis" {
+module "redis" {
 
-#   source = "./modules/redis"
+  source = "./modules/redis"
 
-#   project_name = var.project_name
+  project_name = var.project_name
 
-#   environment = var.environment
+  environment = var.environment
 
-#   redis_subnet_ids = module.networking.redis_subnet_ids
+  redis_subnet_ids = module.networking.redis_subnet_ids
 
-#   redis_security_group_id = module.networking.redis_security_group_id
+  redis_security_group_id = module.networking.redis_security_group_id
 
-# }
+  depends_on = [
+    module.networking
+  ]
 
-# module "eks" {
+}
 
-#   source = "./modules/eks"
+module "eks" {
 
-#   project_name = var.project_name
+  source = "./modules/eks"
 
-#   environment = var.environment
+  project_name = var.project_name
 
-#   vpc_id = module.networking.vpc_id
+  environment = var.environment
 
-#   subnet_ids = module.networking.eks_public_subnet_ids
+  vpc_id = module.networking.vpc_id
 
-#   node_security_group_id = module.networking.eks_nodes_security_group_id
+  subnet_ids = module.networking.eks_public_subnet_ids
 
-#   cluster_version = var.cluster_version
+  node_security_group_id = module.networking.eks_nodes_security_group_id
 
-#   node_instance_types = var.node_instance_types
+  cluster_version = var.cluster_version
 
-# }
+  node_instance_types = var.node_instance_types
+
+  depends_on = [
+    module.networking
+  ]
+
+}
+
+module "ingress_nginx" {
+
+  source = "./modules/ingress-nginx"
+  providers = {
+    kubernetes = kubernetes
+    helm       = helm
+  }
+
+  depends_on = [
+    module.eks
+  ]
+
+}
 
 module "argocd" {
 
   source = "./modules/argocd"
-
-  cluster_name = module.eks.cluster_name
-
   providers = {
     kubernetes = kubernetes
     helm       = helm

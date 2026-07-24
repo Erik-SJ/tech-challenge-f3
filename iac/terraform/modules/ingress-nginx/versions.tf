@@ -9,11 +9,6 @@ terraform {
     helm = {
       source = "hashicorp/helm"
     }
-    
-  }
-}
 
-variable "cluster_name" {
-  description = "Nome do cluster EKS"
-  type        = string
+  }
 }

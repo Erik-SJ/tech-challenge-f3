@@ -6,17 +6,17 @@ locals {
 
     auth = {
       identifier    = "auth-db"
-      database_name = "auth"
+      database_name = "dbauth"
     }
 
     flag = {
       identifier    = "flag-db"
-      database_name = "flag"
+      database_name = "dbflag"
     }
 
     targeting = {
       identifier    = "targeting-db"
-      database_name = "targeting"
+      database_name = "dbtargeting"
     }
 
   }
