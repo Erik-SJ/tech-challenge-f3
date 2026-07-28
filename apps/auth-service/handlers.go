@@ -60,6 +60,7 @@ func (a *App) validateKeyHandler(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(map[string]string{"message": "Chave válida"}); err != nil {
 	log.Printf("erro ao codificar resposta: %v", err)
 	}
+}
 
 // createKeyHandler cria uma nova chave de API
 func (a *App) createKeyHandler(w http.ResponseWriter, r *http.Request) {
@@ -110,6 +111,7 @@ func (a *App) createKeyHandler(w http.ResponseWriter, r *http.Request) {
 	}); err != nil {
 	log.Printf("erro ao codificar resposta: %v", err)
 	}
+}
 
 // --- Middleware ---
 
