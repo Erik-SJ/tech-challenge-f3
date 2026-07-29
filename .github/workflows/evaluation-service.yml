@@ -90,7 +90,7 @@ jobs:
     needs:
       - code-quality
       - security-analysis
-    #if: github.event_name == 'push'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
  
     steps:
