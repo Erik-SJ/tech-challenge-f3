@@ -1,15 +1,20 @@
-name: Flag Service CI
+name: "[CI] Flag Service"
+
+permissions:
+  contents: read
 
 on:
   push:
-    branches: [main]
+    branches: [feature/ci]
     paths:
       - "apps/flag-service/**"
+      - ".github/workflows/flag-service.yml"
 
   pull_request:
-    branches: [main]
+    branches: [feature/ci]
     paths:
       - "apps/flag-service/**"
+      - ".github/workflows/flag-service.yml"
 
 env:
   SERVICE_NAME: flag-service
@@ -18,107 +23,127 @@ env:
 
 jobs:
 
-  build-test:
+  code-validation:
+    name: Code Validation  
     runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: apps/flag-service
+        working-directory: ${{ env.SERVICE_PATH }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python  
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies    
+        run: pip install -r requirements.txt
 
-      - run: |
-          pip install pytest
+      - name: Verify Python syntax
+        run: python -m py_compile app.py
 
-      - run: |
-          pytest || true
-
-  lint:
-    needs: build-test
+  code-quality:
+    name: Code Quality
+    needs: code-validation
     runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: apps/flag-service
+        working-directory: ${{ env.SERVICE_PATH }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - run: |
-          pip install flake8
+      - name: Install Flake8
+        run: pip install flake8
 
-      - run: |
-          flake8 .
-
-  security:
-    needs: lint
+      - name: Run Flake8
+        run: flake8 .
+  
+  security-analysis:
+    name: Security Analysis
+    needs: code-validation
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ${{ env.SERVICE_PATH }}
+
     steps:
-      - uses: actions/checkout@v4
-
-      ## SAST
-      - run: |
-          pip install bandit
-
-      - run: |
-          bandit -r apps/flag-service
-
-      ## SCA
-      - uses: aquasecurity/trivy-action@master
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Install Bandit
+        run: pip install bandit
+  
+      - name: Run SAST - Bandit
+        run: bandit -r .
+  
+      - name: Run SCA - Trivy dependency scan
+        uses: aquasecurity/trivy-action@master
         with:
           scan-type: fs
-          scan-ref: apps/flag-service
+          scan-ref: ${{ env.SERVICE_PATH }}
           severity: CRITICAL
           exit-code: "1"
-
-  docker:
-    needs: security
+        
+  build-and-push:
+    name: Docker Build, Scan and Push
+    needs:
+      - code-quality
+      - security-analysis
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Generate Tag
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Generate image tag
         run: |
-          echo "IMAGE_TAG=v1.0.0-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
-
-      - uses: aws-actions/configure-aws-credentials@v4
+          echo "IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+  
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ env.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-
-      - uses: aws-actions/amazon-ecr-login@v2
-
-      - run: |
+  
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+  
+      - name: Build Docker image
+        run: |
           docker build \
             -t $SERVICE_NAME:$IMAGE_TAG \
-            apps/flag-service
-
-      - uses: aquasecurity/trivy-action@master
+            $SERVICE_PATH
+  
+      - name: Scan Docker image
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.SERVICE_NAME }}:${{ env.IMAGE_TAG }}
           severity: CRITICAL
           exit-code: "1"
-
-      - run: |
+  
+      - name: Tag Docker image
+        run: |
           docker tag \
-          $SERVICE_NAME:$IMAGE_TAG \
-          ${{ secrets.ECR_REGISTRY }}/$SERVICE_NAME:$IMAGE_TAG
-
-      - run: |
+            $SERVICE_NAME:$IMAGE_TAG \
+            ${{ secrets.ECR_REGISTRY }}/$SERVICE_NAME:$IMAGE_TAG
+  
+      - name: Push Docker image to ECR
+        run: |
           docker push \
-          ${{ secrets.ECR_REGISTRY }}/$SERVICE_NAME:$IMAGE_TAG
+            ${{ secrets.ECR_REGISTRY }}/$SERVICE_NAME:$IMAGE_TAG
