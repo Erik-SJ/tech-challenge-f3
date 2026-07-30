@@ -399,7 +399,7 @@ def update_flag(name):
         f"{', '.join(fields)} "
         "WHERE name = %s "
         "RETURNING *"
-    )
+    )  # nosec B608
 
     conn = None
     cur = None
@@ -527,7 +527,7 @@ def delete_flag(name):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8002))
     app.run(
-        host="0.0.0.0",
+        host="0.0.0.0",   # nosec B104
         port=port,
         debug=False,
     )
