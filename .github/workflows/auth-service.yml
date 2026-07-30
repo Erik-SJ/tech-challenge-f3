@@ -1,4 +1,4 @@
-name: "[CI] Auth Service TESTE"
+name: "[CI] Auth Service"
 
 permissions:
   contents: read
