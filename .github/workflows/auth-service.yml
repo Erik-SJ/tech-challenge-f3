@@ -1,7 +1,5 @@
 name: "[CI] Auth Service"
 
-# testes
-
 permissions:
   contents: read
 
