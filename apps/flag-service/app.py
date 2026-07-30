@@ -396,10 +396,10 @@ def update_flag(name):
 
     query = (
         "UPDATE flags SET "
-        f"{', '.join(fields)} "
+        f"{', '.join(fields)} "   # nosec B608
         "WHERE name = %s "
         "RETURNING *"
-    )  # nosec B608
+    )
 
     conn = None
     cur = None
