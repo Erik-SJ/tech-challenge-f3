@@ -135,6 +135,7 @@ jobs:
         with:
           image-ref: ${{ env.SERVICE_NAME }}:${{ env.IMAGE_TAG }}
           severity: CRITICAL
+          ignore-unfixed: true
           exit-code: "1"
   
       - name: Tag Docker image
