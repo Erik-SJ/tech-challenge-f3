@@ -8,13 +8,13 @@ on:
     branches: [feature/ci]
     paths:
       - "apps/auth-service/**"
-      - ".github/workflows/auth-service.yml"
+      - ".github/workflows/auth-service-ci.yml"
 
   pull_request:
     branches: [feature/ci]
     paths:
       - "apps/auth-service/**"
-      - ".github/workflows/auth-service.yml"
+      - ".github/workflows/auth-service-ci.yml"
 env:
   SERVICE_NAME: auth-service
   SERVICE_PATH: apps/auth-service
