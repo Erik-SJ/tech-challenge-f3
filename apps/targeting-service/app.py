@@ -102,6 +102,7 @@ def require_auth(f):
 def health():
     return jsonify({"status": "ok"})
 
+
 @app.route("/rules", methods=["POST"])
 @require_auth
 def create_rule():
@@ -380,4 +381,3 @@ if __name__ == "__main__":
         port=port,
         debug=False,
     )
-
