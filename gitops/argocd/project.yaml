@@ -8,7 +8,7 @@ spec:
   description: Projeto Tech Challenge F3
 
   sourceRepos:
-    - '*'
+    - https://github.com/Erik-SJ/tech-challenge-f3.git
 
   destinations:
     - namespace: '*'

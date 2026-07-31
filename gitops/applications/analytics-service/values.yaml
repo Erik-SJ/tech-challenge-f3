@@ -5,6 +5,7 @@ replicaCount: 1
 image:
   repository: 975049924046.dkr.ecr.us-east-1.amazonaws.com/analytics-service
   tag: latest
+  pullPolicy: Always
 
 service:
   port: 80

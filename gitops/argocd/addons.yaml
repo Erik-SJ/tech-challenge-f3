@@ -11,7 +11,7 @@ spec:
         repoURL: https://github.com/Erik-SJ/tech-challenge-f3.git
         revision: main
         directories:
-          - path: gitops/addons/metrics-server
+          - path: gitops/addons/*
 
   template:
 
