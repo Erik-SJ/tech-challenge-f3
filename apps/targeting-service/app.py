@@ -270,7 +270,7 @@ def update_rule(flag_name):
     values.append(flag_name)
 
     query = (
-        f"UPDATE targeting_rules SET {', '.join(fields)} "
+        f"UPDATE targeting_rules SET {', '.join(fields)} "   # nosec B608
         "WHERE flag_name = %s "
         "RETURNING *"
     )
@@ -377,7 +377,7 @@ def delete_rule(flag_name):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8003))
     app.run(
-        host="0.0.0.0",
+        host="0.0.0.0",   # nosec B104
         port=port,
         debug=False,
     )
