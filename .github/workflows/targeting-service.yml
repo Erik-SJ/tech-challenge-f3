@@ -1,7 +1,7 @@
 name: "[CI] Targeting Service"
 
 permissions:
-  contents: read
+  contents: write
 
 on:
   push:
@@ -147,3 +147,46 @@ jobs:
         run: |
           docker push \
             ${{ secrets.ECR_REGISTRY }}/$SERVICE_NAME:$IMAGE_TAG
+
+  update-helm-values:
+    name: Update Helm Values
+    needs:
+      - build-and-push
+
+    if: github.event_name == 'push'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate image tag
+        run: |
+          echo "IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
+      - name: Update Helm values
+        run: |
+          sed -i "s/^  tag:.*/  tag: ${IMAGE_TAG}/" \
+          gitops/applications/${SERVICE_NAME}/values.yaml
+
+      - name: Commit Helm values update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add gitops/applications/${SERVICE_NAME}/values.yaml
+
+          git diff --cached --quiet || \
+          git commit -m "ci(${SERVICE_NAME}): update image tag to ${IMAGE_TAG}"
+
+      - name: Push changes
+        run: |
+          git push
+
+      - name: Deployment information
+        run: |
+          echo "Helm values updated successfully."
+          echo "ArgoCD will automatically synchronize the application."          
