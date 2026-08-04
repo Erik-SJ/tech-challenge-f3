@@ -9,7 +9,7 @@ spec:
 
   source:
     repoURL: https://github.com/Erik-SJ/tech-challenge-f3.git
-    targetRevision: main
+    targetRevision: feature/ci
     path: gitops/argocd
 
   destination:
@@ -23,4 +23,5 @@ spec:
       selfHeal: true
 
     syncOptions:
-    - CreateNamespace=true  
+      - CreateNamespace=true  
+      - ServerSideApply=true

@@ -1,4 +1,4 @@
-namespace: evaluation
+namespace: evaluation-service
 
 replicaCount: 1
 

@@ -1,4 +1,4 @@
-namespace: targeting
+namespace: targeting-service
 
 replicaCount: 1
 

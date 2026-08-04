@@ -1,4 +1,4 @@
-namespace: flag
+namespace: flag-service
 
 replicaCount: 1
 

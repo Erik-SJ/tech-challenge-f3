@@ -1,4 +1,4 @@
-namespace: analytics
+namespace: analytics-service
 
 replicaCount: 1
 

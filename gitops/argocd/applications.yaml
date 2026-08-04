@@ -8,7 +8,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/Erik-SJ/tech-challenge-f3.git
-        revision: main
+        revision: feature/ci
         directories:
           - path: gitops/applications/*
 
@@ -24,14 +24,18 @@ spec:
 
       source:
         repoURL: https://github.com/Erik-SJ/tech-challenge-f3.git
-        targetRevision: main
+        targetRevision: feature/ci
         path: "{{path}}"
 
       destination:
         server: https://kubernetes.default.svc
-        namespace: default
+        namespace: "{{path.basename}}"
 
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
+
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true  
