@@ -1,138 +1,167 @@
-module "networking" {
+# module "networking" {
 
-  source = "./modules/networking"
+#   source = "./modules/networking"
 
-  project_name = var.project_name
+#   project_name = var.project_name
 
-  environment = var.environment
+#   environment = var.environment
 
-  vpc_cidr = var.vpc_cidr
+#   vpc_cidr = var.vpc_cidr
 
-  availability_zones = var.availability_zones
+#   availability_zones = var.availability_zones
 
-  public_subnets = var.public_subnets
+#   public_subnets = var.public_subnets
 
-  private_subnets = var.private_subnets
+#   private_subnets = var.private_subnets
 
-  redis_subnets = var.redis_subnets
+#   redis_subnets = var.redis_subnets
 
-}
+# }
 
-module "dynamodb" {
+# module "dynamodb" {
 
-  source = "./modules/dynamodb"
+#   source = "./modules/dynamodb"
 
-  project_name = var.project_name
+#   project_name = var.project_name
 
-  environment = var.environment
+#   environment = var.environment
 
-}
+# }
 
-module "sqs" {
+# module "sqs" {
 
-  source = "./modules/sqs"
+#   source = "./modules/sqs"
 
-  project_name = var.project_name
+#   project_name = var.project_name
 
-  environment = var.environment
+#   environment = var.environment
 
-}
+# }
 
-module "ecr" {
+# module "ecr" {
 
-  source = "./modules/ecr"
+#   source = "./modules/ecr"
 
-  project_name = var.project_name
+#   project_name = var.project_name
 
-  environment = var.environment
+#   environment = var.environment
 
-}
+# }
 
-module "rds" {
+# module "rds" {
 
-  source = "./modules/rds"
+#   source = "./modules/rds"
 
-  project_name = var.project_name
+#   project_name = var.project_name
 
-  environment = var.environment
+#   environment = var.environment
 
-  rds_subnet_group_name = module.networking.rds_subnet_group_name
+#   rds_subnet_group_name = module.networking.rds_subnet_group_name
 
-  rds_security_group_id = module.networking.rds_security_group_id
+#   rds_security_group_id = module.networking.rds_security_group_id
 
-  secret_name = "postgres_credentials"
+#   secret_name = "postgres_credentials"
 
-  depends_on = [
-    module.networking
-  ]
+#   depends_on = [
+#     module.networking
+#   ]
 
-}
+# }
 
-module "redis" {
+# module "db-bootstrap" {
 
-  source = "./modules/redis"
+#   source = "./modules/db-bootstrap"
 
-  project_name = var.project_name
+#   subnet_id = module.networking.eks_public_subnet_ids[0]
 
-  environment = var.environment
+#   security_group_ids = [
+#     module.networking.eks_nodes_security_group_id
+#   ]
 
-  redis_subnet_ids = module.networking.redis_subnet_ids
+#   instance_profile_name = "LabInstanceProfile"
 
-  redis_security_group_id = module.networking.redis_security_group_id
+#   postgres_databases = module.rds.postgres_databases
 
-  depends_on = [
-    module.networking
-  ]
+#   postgres_credentials = module.rds.postgres_credentials
+#   postgres_sql_files = {
 
-}
+#     auth      = file("${path.module}/modules/rds/sql/auth.sql")
+#     flag      = file("${path.module}/modules/rds/sql/flag.sql")
+#     targeting = file("${path.module}/modules/rds/sql/targeting.sql")
 
-module "eks" {
+#   }
 
-  source = "./modules/eks"
+#   depends_on = [
+#     module.rds
+#   ]
 
-  project_name = var.project_name
+# }
 
-  environment = var.environment
+# module "redis" {
 
-  vpc_id = module.networking.vpc_id
+#   source = "./modules/redis"
 
-  subnet_ids = module.networking.eks_public_subnet_ids
+#   project_name = var.project_name
 
-  node_security_group_id = module.networking.eks_nodes_security_group_id
+#   environment = var.environment
 
-  cluster_version = var.cluster_version
+#   redis_subnet_ids = module.networking.redis_subnet_ids
 
-  node_instance_types = var.node_instance_types
+#   redis_security_group_id = module.networking.redis_security_group_id
 
-  depends_on = [
-    module.networking
-  ]
+#   depends_on = [
+#     module.networking
+#   ]
 
-}
-module "ingress_nginx" {
+# }
 
-  source = "./modules/ingress-nginx"
-  providers = {
-    kubernetes = kubernetes
-    helm       = helm
-  }
+# module "eks" {
 
-  depends_on = [
-    module.eks
-  ]
+#   source = "./modules/eks"
 
-}
+#   project_name = var.project_name
 
-module "argocd" {
+#   environment = var.environment
 
-  source = "./modules/argocd"
-  providers = {
-    kubernetes = kubernetes
-    helm       = helm
-  }
+#   vpc_id = module.networking.vpc_id
 
-  depends_on = [
-    module.eks
-  ]
+#   subnet_ids = module.networking.eks_public_subnet_ids
 
-}
+#   node_security_group_id = module.networking.eks_nodes_security_group_id
+
+#   cluster_version = var.cluster_version
+
+#   node_instance_types = var.node_instance_types
+
+#   depends_on = [
+#     module.networking
+#   ]
+
+# }
+# module "ingress_nginx" {
+
+#   source = "./modules/ingress-nginx"
+#   providers = {
+#     kubernetes = kubernetes
+#     helm       = helm
+#   }
+
+#   depends_on = [
+#     module.eks
+#   ]
+
+# }
+
+# module "argocd" {
+
+#   source = "./modules/argocd"
+#   providers = {
+#     kubernetes = kubernetes
+#     helm       = helm
+#   }
+
+#   depends_on = [
+#     module.eks
+#   ]
+
+# }
