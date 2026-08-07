@@ -3,7 +3,7 @@ namespace: auth-service
 replicaCount: 1
 
 image:
-  repository: 975049924046.dkr.ecr.us-east-1.amazonaws.com/auth-service
+  repository: 712979978195.dkr.ecr.us-east-1.amazonaws.com/auth-service
   tag: 4feb276
   pullPolicy: Always
 
