@@ -5,6 +5,7 @@ resource "kubernetes_manifest" "root_app" {
   )
 
   depends_on = [
-    helm_release.argocd
+    kubernetes_manifest.argocd_project
   ]
+
 }
