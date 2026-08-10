@@ -178,5 +178,3 @@ jobs:
         run: |
           echo "Helm values updated successfully."
           echo "ArgoCD will automatically synchronize the application."
-
-          # teste #
