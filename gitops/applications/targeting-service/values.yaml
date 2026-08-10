@@ -3,7 +3,7 @@ namespace: targeting-service
 replicaCount: 1
 
 image:
-  repository: 975049924046.dkr.ecr.us-east-1.amazonaws.com/targeting-service
+  repository: 712979978195.dkr.ecr.us-east-1.amazonaws.com/targeting-service
   tag: f34b10d
   pullPolicy: Always
 
