@@ -15,10 +15,10 @@ secret:
   name: auth-secret
 
 externalSecret:
-  key: auth-service  
+  key: auth-service
 
 configMap:
   name: auth-config
 
 autoscaling:
-  enabled: false  
+  enabled: false
