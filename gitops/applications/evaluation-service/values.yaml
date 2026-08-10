@@ -3,8 +3,8 @@ namespace: evaluation-service
 replicaCount: 1
 
 image:
-  repository: 975049924046.dkr.ecr.us-east-1.amazonaws.com/evaluation-service
-  tag: 6b69b42
+  repository: 712979978195.dkr.ecr.us-east-1.amazonaws.com/evaluation-service
+  tag: ""
   pullPolicy: Always
 
 service:
@@ -20,8 +20,8 @@ externalSecret:
 configMap:
   name: evaluation-config
   data:
-    FLAG_SERVICE_URL: "http://172.20.184.26"
-    TARGETING_SERVICE_URL: "http://172.20.208.220"
+    FLAG_SERVICE_URL: "http://172.20.136.148"
+    TARGETING_SERVICE_URL: "http://172.20.222.50"
     
 autoscaling:
   enabled: true
