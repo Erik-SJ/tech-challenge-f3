@@ -3,8 +3,8 @@ namespace: analytics-service
 replicaCount: 1
 
 image:
-  repository: 975049924046.dkr.ecr.us-east-1.amazonaws.com/analytics-service
-  tag: a6fc5d3
+  repository: 712979978195.dkr.ecr.us-east-1.amazonaws.com/analytics-service
+  tag: ""
   pullPolicy: Always
 
 service:
