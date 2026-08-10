@@ -177,4 +177,6 @@ jobs:
       - name: Deployment information
         run: |
           echo "Helm values updated successfully."
-          echo "ArgoCD will automatically synchronize the application."       
+          echo "ArgoCD will automatically synchronize the application."
+
+          # teste #
