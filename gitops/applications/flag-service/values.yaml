@@ -3,13 +3,8 @@ namespace: flag-service
 replicaCount: 1
 
 image:
-<<<<<<< HEAD
   repository: 712979978195.dkr.ecr.us-east-1.amazonaws.com/flag-service
   tag: c33c44e
-=======
-  repository: 975049924046.dkr.ecr.us-east-1.amazonaws.com/flag-service
-  tag: fd5e590
->>>>>>> c8381da27d3d6b2fc4af65b863faddab09b147aa
   pullPolicy: Always
 
 service:
