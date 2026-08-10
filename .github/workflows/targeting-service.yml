@@ -3,6 +3,10 @@ name: "[CI] Targeting Service"
 permissions:
   contents: write
 
+concurrency:
+  group: helm-values-update
+  cancel-in-progress: false  
+
 on:
   push:
     branches: [feature/ci]
@@ -182,9 +186,13 @@ jobs:
           git diff --cached --quiet || \
           git commit -m "ci(${SERVICE_NAME}): update image tag to ${IMAGE_TAG}"
 
+      - name: Sync with remote branch
+        run: |
+          git pull --rebase origin feature/ci
+
       - name: Push changes
         run: |
-          git push
+          git push origin feature/ci
 
       - name: Deployment information
         run: |
