@@ -169,7 +169,7 @@ jobs:
 
       - name: Update Helm values
         run: |
-          sed -i "s/^  tag:.*/  tag: ${IMAGE_TAG}/" \
+          sed -i "s/^  tag:.*/  tag: \"${IMAGE_TAG}\"/" \
           gitops/applications/${SERVICE_NAME}/values.yaml
 
       - name: Commit Helm values update
