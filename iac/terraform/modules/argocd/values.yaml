@@ -4,4 +4,8 @@ server:
 
 configs:
   params:
-    controller.diff.server.side: "true"    
+    controller.diff.server.side: "true"
+    
+  cm:
+    timeout.reconciliation: 30s
+    timeout.reconciliation.jitter: 0s  
