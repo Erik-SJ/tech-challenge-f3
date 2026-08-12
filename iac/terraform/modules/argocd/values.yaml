@@ -7,5 +7,5 @@ configs:
     controller.diff.server.side: "true"
     
   cm:
-    timeout.reconciliation: 30s
+    timeout.reconciliation: 20s
     timeout.reconciliation.jitter: 0s  
