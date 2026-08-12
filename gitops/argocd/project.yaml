@@ -16,7 +16,7 @@ spec:
       server: https://kubernetes.default.svc
 
   orphanedResources:
-    warn: true    
+    warn: false
 
   clusterResourceWhitelist:
     - group: '*'
