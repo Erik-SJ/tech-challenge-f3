@@ -10,13 +10,13 @@ concurrency:
 
 on:
   push:
-    branches: [feature/ci]
+    branches: [main]
     paths:
       - "apps/analytics-service/**"
       - ".github/workflows/analytics-service.yml"
 
   pull_request:
-    branches: [feature/ci]
+    branches: [main]
     paths:
       - "apps/analytics-service/**"
       - ".github/workflows/analytics-service.yml"
@@ -189,11 +189,11 @@ jobs:
 
       - name: Sync with remote branch
         run: |
-          git pull --rebase origin feature/ci
+          git pull --rebase origin main
 
       - name: Push changes
         run: |
-          git push origin feature/ci
+          git push origin main
 
       - name: Deployment information
         run: |

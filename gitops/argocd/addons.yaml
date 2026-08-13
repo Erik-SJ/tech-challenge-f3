@@ -9,7 +9,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/Erik-SJ/tech-challenge-f3.git
-        revision: feature/ci
+        revision: main
         directories:
           - path: gitops/addons/*
 
@@ -26,7 +26,7 @@ spec:
 
       source:
         repoURL: https://github.com/Erik-SJ/tech-challenge-f3.git
-        targetRevision: feature/ci
+        targetRevision: main
         path: '{{path}}'
 
       destination:
