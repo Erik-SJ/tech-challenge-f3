@@ -20,11 +20,11 @@ externalSecret:
 configMap:
   name: evaluation-config
   data:
-    FLAG_SERVICE_URL: "http://172.20.103.52"
-    TARGETING_SERVICE_URL: "http://172.20.113.70"
+    FLAG_SERVICE_URL: "http://172.20.227.36"
+    TARGETING_SERVICE_URL: "http://172.20.62.194"
 
 autoscaling:
   enabled: true
   minReplicas: 1
   maxReplicas: 4
-  targetCPUUtilizationPercentage: 70  
+  targetCPUUtilizationPercentage: 30  
