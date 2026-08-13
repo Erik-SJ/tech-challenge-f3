@@ -1,5 +1,7 @@
 name: "[CI] Auth Service"
 
+#teste main
+
 permissions:
   contents: write
 
