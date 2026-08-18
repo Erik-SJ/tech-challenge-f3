@@ -1,5 +1,7 @@
 name: "[CI] Auth Service"
 
+# [auth-service]: DEMONSTRAÇÃO GITOPS
+
 permissions:
   contents: write
 
