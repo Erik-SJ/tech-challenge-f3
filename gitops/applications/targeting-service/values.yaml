@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: 712979978195.dkr.ecr.us-east-1.amazonaws.com/targeting-service
-  tag: "fe44d01"
+  tag: "7952666"
   pullPolicy: Always
 
 service:
