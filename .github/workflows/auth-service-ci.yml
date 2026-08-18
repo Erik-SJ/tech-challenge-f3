@@ -1,7 +1,5 @@
 name: "[CI] Auth Service"
 
-# demonstracao f3
-
 permissions:
   contents: write
 
