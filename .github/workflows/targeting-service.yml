@@ -1,7 +1,5 @@
 name: "[CI] Targeting Service"
 
-# [targeting-service]: DEMONSTRAÇÃO GITOPS
-
 permissions:
   contents: write
 

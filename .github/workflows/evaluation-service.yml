@@ -1,7 +1,5 @@
 name: "[CI] Evaluation Service"
 
-# [evaluation-service]: DEMONSTRAÇÃO GITOPS
-
 permissions:
   contents: write
 
