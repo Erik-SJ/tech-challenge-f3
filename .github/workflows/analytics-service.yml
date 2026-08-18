@@ -1,5 +1,7 @@
 name: "[CI] Analytics Service"
 
+# [analytics-service]: DEMONSTRAÇÃO GITOPS
+
 permissions:
   contents: write
 
