@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: 712979978195.dkr.ecr.us-east-1.amazonaws.com/evaluation-service
-  tag: "697ab4c"
+  tag: "007f5ae"
   pullPolicy: Always
 
 service:
