@@ -1,5 +1,7 @@
 name: "[CI] Flag Service"
 
+# [flag-service]: DEMONSTRAÇÃO GITOPS
+
 permissions:
   contents: write
 
