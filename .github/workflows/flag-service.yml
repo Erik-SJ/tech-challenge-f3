@@ -1,5 +1,7 @@
 name: "[CI] Flag Service"
 
+# [services]: demonstracao argocd
+
 permissions:
   contents: write
 

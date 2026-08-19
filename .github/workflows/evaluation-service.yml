@@ -1,5 +1,7 @@
 name: "[CI] Evaluation Service"
 
+# [services]: demonstracao argocd
+
 permissions:
   contents: write
 

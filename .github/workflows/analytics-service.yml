@@ -1,5 +1,7 @@
 name: "[CI] Analytics Service"
 
+# [services]: demonstracao argocd
+
 permissions:
   contents: write
 
