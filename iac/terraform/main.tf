@@ -68,34 +68,34 @@ module "rds" {
 
 }
 
-# module "db-bootstrap" {
+module "db-bootstrap" {
 
-#   source = "./modules/db-bootstrap"
+  source = "./modules/db-bootstrap"
 
-#   subnet_id = module.networking.eks_public_subnet_ids[0]
+  subnet_id = module.networking.eks_public_subnet_ids[0]
 
-#   security_group_ids = [
-#     module.networking.eks_nodes_security_group_id
-#   ]
+  security_group_ids = [
+    module.networking.eks_nodes_security_group_id
+  ]
 
-#   instance_profile_name = "LabInstanceProfile"
+  instance_profile_name = "LabInstanceProfile"
 
-#   postgres_databases = module.rds.postgres_databases
+  postgres_databases = module.rds.postgres_databases
 
-#   postgres_credentials = module.rds.postgres_credentials
-#   postgres_sql_files = {
+  postgres_credentials = module.rds.postgres_credentials
+  postgres_sql_files = {
 
-#     auth      = file("${path.module}/modules/rds/sql/auth.sql")
-#     flag      = file("${path.module}/modules/rds/sql/flag.sql")
-#     targeting = file("${path.module}/modules/rds/sql/targeting.sql")
+    auth      = file("${path.module}/modules/rds/sql/auth.sql")
+    flag      = file("${path.module}/modules/rds/sql/flag.sql")
+    targeting = file("${path.module}/modules/rds/sql/targeting.sql")
 
-#   }
+  }
 
-#   depends_on = [
-#     module.rds
-#   ]
+  depends_on = [
+    module.rds
+  ]
 
-# }
+}
 
 module "redis" {
 
