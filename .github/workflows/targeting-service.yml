@@ -1,7 +1,5 @@
 name: "[CI] Targeting Service"
 
-# [services]: demonstracao argocd
-
 permissions:
   contents: write
 

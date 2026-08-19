@@ -1,7 +1,5 @@
 name: "[CI] Auth Service"
 
-# [services]: demonstracao argocd
-
 permissions:
   contents: write
 
