@@ -1,7 +1,5 @@
 name: "[CI] Flag Service"
 
-#teste
-
 permissions:
   contents: write
 
