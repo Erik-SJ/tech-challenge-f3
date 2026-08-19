@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: 712979978195.dkr.ecr.us-east-1.amazonaws.com/flag-service
-  tag: "8b0f3ce"
+  tag: "f55ea89"
   pullPolicy: Always
 
 service:
