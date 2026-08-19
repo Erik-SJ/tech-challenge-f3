@@ -1,5 +1,6 @@
 name: "[CI] Analytics Service"
 
+#teste
 permissions:
   contents: write
 

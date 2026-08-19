@@ -1,5 +1,7 @@
 name: "[CI] Targeting Service"
 
+#teste
+
 permissions:
   contents: write
 
